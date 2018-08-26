@@ -1,0 +1,61 @@
+package com.alarm.eagle.util;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/**
+ * Json工具包
+ * Created by skycrab on 17/12/22.
+ */
+public class JsonUtil {
+    private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    static {
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES , false);
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
+    }
+
+    public static ObjectNode createObjectNode() {
+        return mapper.createObjectNode();
+    }
+
+    public static <T> T convertValue(Object o, Class<T> valueType) {
+        return mapper.convertValue(o, valueType);
+    }
+
+    public static <T> T decode(String jsonStr, Class<T> valueType){
+        try {
+            return mapper.readValue(jsonStr, valueType);
+        }catch (Exception e) {
+            logger.error("jsonStr={}||valueType={}||error=", jsonStr, valueType, e);
+            return null;
+        }
+    }
+
+    public static <T> T decode(String jsonStr, TypeReference valueTypeRef){
+        try {
+            return mapper.readValue(jsonStr, valueTypeRef);
+        }catch (Exception e) {
+            logger.error("jsonStr={}||valueTypeRef={}||error=", jsonStr, valueTypeRef, e);
+            return null;
+        }
+    }
+
+    public static String encode(Object o) {
+        try {
+            return mapper.writeValueAsString(o);
+        }catch (Exception e) {
+            logger.error("object={}||error=", o, e);
+            return null;
+        }
+    }
+
+}

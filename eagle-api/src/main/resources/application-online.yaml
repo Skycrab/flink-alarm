@@ -1,0 +1,78 @@
+
+server:
+  port: 9081
+  context-path: /eagle-api
+  tomcat:
+    uri-encoding: UTF-8
+    basedir: ./
+    accesslog:
+      directory: logs/
+      enabled: true
+      pattern: '%h %l %u %t "%r" %s %b %D'
+logging:
+  config: classpath:logback.xml
+
+
+spring:
+  jpa:
+    show-sql: true
+    database: MYSQL
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/eagle?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull
+    username:
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+    initial-size: 2
+    max-total: 2
+    min-idle: 5
+    max-idle: 10
+    min-evictable-idle-time-millis: 60000
+    time-between-eviction-runs-millis: 30000
+    num-tests-per-eviction-run: 5
+    max-wait-millis: 15000
+    log-abandoned: true
+    remove-abandoned-on-borrow: true
+    remove-abandoned-timeout: 180
+    test-on-borrow: true
+    test-while-idle: true
+    validation-query: SELECT NOW() FROM DUAL
+    validation-query-timeout: 1
+    connection-properties: connectTimeout=1000;socketTimeout=1000
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+  mail:
+    host: mail.l63.com
+    port:
+    username:
+    password:
+    defaultEncoding: UTF-8
+    properties:
+      mail.debug: true
+      mail.smtp.timeout: 25000
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.socketFactory.port:
+
+
+sender:
+  sms:
+    url: http://localhost:8000/jet/textmessage
+    source: insurance
+    token: ****
+
+  weixin:
+    url: http://localhost/weixin
+    sendKey: weixin
+    appId: 1
+
+
+
+
+
+
